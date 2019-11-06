@@ -1,0 +1,31 @@
+{% extends 'layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}{{ 'profile'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="container container-padding">
+
+        <h2 class="text-center text-uppercase text-secondary mb-0 padding-bottom">
+            {{ 'profile'|trans }}
+        </h2>
+
+        <div class="container d-flex align-items-center flex-column">
+
+            {% if user.githubAvatar is null %}
+                <div class="padding-small">{{ 'no_avatar'|trans }}</div>
+            {% else %}
+                <img src="{{ user.githubAvatar }}" alt="" />
+            {% endif %}
+
+            <div class="padding-small">
+                <p class="font-weight-light mb-0">{{ user.username }}</p>
+            </div>
+            <p class="font-weight-light mb-0 small">({{ 'created'|trans }}: {{ user.createdAt|date("Y-m-d H:i") }})</p>
+        </div>
+    </div>
+
+{% endblock %}

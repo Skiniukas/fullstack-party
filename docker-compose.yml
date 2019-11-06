@@ -1,0 +1,45 @@
+version: '3'
+services:
+  apache:
+    build: .docker/apache
+    container_name: sf_apache
+    ports:
+      - 8082:80
+    volumes:
+      - .docker/config/vhosts:/etc/apache2/sites-enabled
+      - .:/var/www/sf
+    depends_on:
+      - php
+
+  mysql:
+    image: mysql:8
+    container_name: sf_mysql
+    volumes:
+      - .docker/data/db:/var/lib/mysql
+    command:
+      - "--default-authentication-plugin=mysql_native_password"
+      - "--lower_case_table_names=1"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sf_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      TZ: Europe/Vilnius
+
+  php:
+    build: .docker/php
+    container_name: sf_php
+    volumes:
+      - .:/var/www/sf
+    depends_on:
+      - mysql
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+  redis:
+    image: redis:4.0.2
+    container_name: sf_redis
+    hostname: redis
+    volumes:
+      - "./volumes/redis:/data"

@@ -27,3 +27,37 @@ If you found this task it means we are looking for you!
 - Structure! WE LOVE STRUCTURE!
 - Maybe You have an idea how it should interact with users? Do it! Its on you!
 - Have fun!
+
+==========
+
+Please enter Github credentials in the .env file
+
+```
+# https://github.com/settings/developers
+OAUTH_GITHUB_CLIENT_ID={oauth_github_client_id}
+OAUTH_GITHUB_CLIENT_SECRET={oauth_github_client_secret}
+
+# https://github.com/settings/tokens
+GITHUB_USER_TOKEN={github_user_token}
+```
+
+Run project with Docker
+```
+docker-compose up
+```
+
+Initialize project structure, composer, create DB structures, ...
+```
+$ sh init.sh
+```
+
+#### Accessing the project
+
+```
+http://localhost:8082/
+```
+
+Run tests
+```
+docker exec -it sf_php /bin/bash -c 'cd sf; php bin/phpunit'
+```

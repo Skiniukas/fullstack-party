@@ -1,0 +1,52 @@
+{% extends 'layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}{{ 'repositories'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="container container-padding">
+
+        <h2 class="text-center text-uppercase text-secondary mb-0 padding-bottom">
+            {{ 'repositories'|trans }}
+            {% if repos.count > 0 %}
+                ({{ repos.count }})
+            {% endif %}
+        </h2>
+
+        {% if repos.count > 0 %}
+            {% for repo in repos.list %}
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="repo-block">
+                            <p class="lead">
+                                <a href="{{ repo.url }}">{{ repo.name }}</a> ({{ repo.fullName }})
+                            </p>
+                            <p>
+                                {% if repo.description is null %}
+                                    -
+                                {% else %}
+                                    {{ repo.description }}
+                                {% endif %}
+                            </p>
+                            <span class="small text-gray">
+                                {{ 'owner'|trans }}: <a href="{{ repo.ownerUrl }}">{{ repo.ownerName }}</a>,
+                                {{ 'pushed'|trans }}: {{ repo.pushedAt|date("Y-m-d H:i") }},
+                                {{ 'updated'|trans }}: {{ repo.updatedAt|date("Y-m-d H:i") }},
+                                {{ 'created'|trans }}: {{ repo.createdAt|date("Y-m-d H:i") }},
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    {{ 'no_repositories'|trans }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
